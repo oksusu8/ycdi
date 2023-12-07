@@ -11,22 +11,17 @@ let poseBtn;
 
 let isVisible = true; // 밑 탭들이 보이게 안보이게 선택하는 조건
 
-let images = [];
-let sliderWidth;
-let currentImage = 0;
-let dragging = false;
-let startX;
-
-
-
 
 function preload() {
   menu = loadImage("menu.png");
   flip = loadImage("flip.png");
-  
-  for (let i = 0; i < 7; i++) {
-    images[i] = loadImage('pose2.JPG');
-  }
+  pic1 = loadImage('pose2.JPG');
+  pic2 = loadImage('pose2.JPG');
+  pic3 = loadImage('pose2.JPG');
+  pic4 = loadImage('pose2.JPG');
+  pic5 = loadImage('pose2.JPG');
+  pic6 = loadImage('pose2.JPG');
+  pic7 = loadImage('pose2.JPG');
 }
 
 function setup() {
@@ -59,9 +54,6 @@ function setup() {
   poseBtn.position(width-(width*0.25), height*0.88-(height*0.09)/2);
   poseBtn.size(height*0.11, height*0.1);
   
-  /* 추가 */
-  sliderWidth = width * 0.2;
-  
   
   shutterBtn.mousePressed(capture);
   poseBtn.mousePressed(posetab);
@@ -73,6 +65,8 @@ function draw() {
   image(video, 0, height*0.08);
   image(menu, width*0.03, height*0.03, width*0.06, height*0.04);
   image(flip, width*0.91, height*0.03, width*0.06, height*0.04);
+  
+  
   
   
 }
@@ -119,52 +113,16 @@ function posetab() {
   
   
   // 포즈 사진 모음
-  //fill(255);
-  //noStroke();
-  //rect(width*0.1, height*0.86, height*0.13, height*0.13);
-
-  //슬라이더 배경
-  fill(200);
+  fill(255);
   noStroke();
-  rectMode(CENTER);
-  //rect(width / 2, height - 50, sliderWidth, 20, 10);
-  rect(300, 300, sliderWidth, 20, 10); /*test*/
+  //rect(width*0.1, height*0.86, height*0.13, height*0.13);
+  image(pic1, width*0.1, height*0.86, height*0.13, height*0.13);
+  image(pic1, width*0.3, height*0.86, height*0.13, height*0.13);
+  image(pic1, width*0.5, height*0.86, height*0.13, height*0.13);
+  image(pic1, width*0.7, height*0.86, height*0.13, height*0.13);
+  image(pic1, width*0.9, height*0.86, height*0.13, height*0.13);
 
-  // 이미지 표시
-  imageMode(CENTER);
-  image(images[currentImage], 200, 200);
 
-  // 터치 슬라이더 표시
-  fill(100);
-  ellipse(map(currentImage, 0, images.length - 1, width * 0.1, width * 0.9), height - 50, 30);
-
-  // 드래그 중이면 이미지 변경
-  if (dragging) {
-    let offsetX = mouseX - startX;
-    let index = int(map(offsetX, 0, sliderWidth, 0, images.length - 1));
-    currentImage = constrain(index, 0, images.length - 1);
-  }
-  
-}
-
-function touchStarted() {
-  if (dist(mouseX, mouseY, map(currentImage, 0, images.length - 1, width * 0.1, width * 0.9), height - 50) < 30 / 2) {
-    dragging = true;
-    startX = mouseX;
-  }
-}
-
-function touchMoved() {
-  // 드래그 중일 때 이미지 변경
-  if (dragging) {
-    let offsetX = mouseX - startX;
-    let index = int(map(offsetX, 0, sliderWidth, 0, images.length - 1));
-    currentImage = constrain(index, 0, images.length - 1);
-  }
-}
-
-function touchEnded() {
-  dragging = false;
 }
 
 
