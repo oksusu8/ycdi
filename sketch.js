@@ -116,11 +116,12 @@ function posetab() {
   fill(255);
   noStroke();
   //rect(width*0.1, height*0.86, height*0.13, height*0.13);
-  image(pic1, width*0.1, height*0.86, height*0.13, height*0.13);
-  image(pic1, width*0.3, height*0.86, height*0.13, height*0.13);
-  image(pic1, width*0.5, height*0.86, height*0.13, height*0.13);
-  image(pic1, width*0.7, height*0.86, height*0.13, height*0.13);
-  image(pic1, width*0.9, height*0.86, height*0.13, height*0.13);
+  //원래 0.1, 0.3, 0.5, 0.7, 0.9... height 0.86 / size: height*0.13
+  image(pic1, width*0.05, height*0.8, height*0.14, height*0.14);
+  image(pic1, width*0.3, height*0.8, height*0.14, height*0.14);
+  image(pic1, width*0.55, height*0.8, height*0.14, height*0.14);
+  image(pic1, width*0.7, height*0.8, height*0.14, height*0.14);
+  //image(pic1, width*0.9, height*0.8, height*0.14, height*0.14);
 
 
 }
