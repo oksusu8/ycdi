@@ -1,19 +1,171 @@
-// sketch.js
+let buttonX, buttonY;
+
 let video;
 
-function setup() {
-    // box2 컨테이너를 선택하고 내부에 캔버스를 생성합니다.
-    let videoContainer = select('#video-container');
-    let canvas = createCanvas(videoContainer.width, videoContainer.height);
-    canvas.parent('video-container');
+let menu, flip;
+let pic1, pic2, pic3, pic4, pic5, pic6, pic7;
 
-    // 비디오 캡처를 생성합니다.
-    video = createCapture(VIDEO);
-    video.size(width, height); // 비디오 크기를 캔버스 크기와 일치하도록 설정합니다.
-    video.hide();
+let shutterBtn;
+let autoBtn;
+let poseBtn;
+
+let isVisible = true; // 밑 탭들이 보이게 안보이게 선택하는 조건
+
+let images = [];
+let sliderWidth;
+let currentImage = 0;
+let dragging = false;
+let startX;
+
+
+
+
+function preload() {
+  menu = loadImage("menu.png");
+  flip = loadImage("flip.png");
+  
+  for (let i = 0; i < 7; i++) {
+    images[i] = loadImage('pose2.JPG');
+  }
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  buttonX = width / 2;
+  buttonY = height / 2;
+  
+  video = createCapture(VIDEO);
+  video.size(width, height*0.66); // 0.7  0.65
+  video.hide();
+  layoutDraw();
+  
+  // rectMode 함수를 사용하여 사각형 모드를 CENTER로 설정
+  rectMode(CENTER);
+  
+  
+  shutterBtn = createButton('');
+  shutterBtn.class('shutterBtn');
+  shutterBtn.position(buttonX-(height*0.12)/2, height*0.88-(height*0.12)/2);
+  shutterBtn.size(height*0.12, height*0.12); // 0.09 & 0.91
+  captureBtn();
+  
+  autoBtn = createButton('Auto');
+  autoBtn.class('autoBtn');
+  autoBtn.position(width*0.91, height*0.68);
+  autoBtn.size(height*0.05, height*0.05);
+  
+  poseBtn = createButton('POSE');
+  poseBtn.class('poseBtn');
+  poseBtn.position(width-(width*0.25), height*0.88-(height*0.09)/2);
+  poseBtn.size(height*0.11, height*0.1);
+  
+  /* 추가 */
+  sliderWidth = width * 0.2;
+  
+  
+  shutterBtn.mousePressed(capture);
+  poseBtn.mousePressed(posetab);
+  captureBtn();
+  
 }
 
 function draw() {
-    // 비디오를 캔버스에 그립니다.
-    image(video, 0, 0, width, height);
+  image(video, 0, height*0.08);
+  image(menu, width*0.03, height*0.03, width*0.06, height*0.04);
+  image(flip, width*0.91, height*0.03, width*0.06, height*0.04);
+  
+  
 }
+
+
+function layoutDraw() {
+  // 상단 레이아웃 박스
+  fill(255);
+  noStroke();
+  rect(0, 0, width, height*0.08);
+  
+  fill(0);
+  noStroke();
+  rect(0, height*0.73, width, height*0.27);
+}
+
+// 캡쳐버튼 근처 꾸미기 역할 함수
+function captureBtn() {
+  
+  fill(255);
+  noStroke();
+  circle(buttonX, height*0.88, height*0.13); // 0.13->0.1
+  
+}
+
+// 캡쳐 버튼이 눌리면 작동하는 함수
+function capture() {
+  background(255);
+}
+
+function posetab() {
+  isVisible = !isVisible;
+  fill(0);
+  noStroke();
+  circle(buttonX, height*0.88, height*0.14);
+  shutterBtn.hide();
+  poseBtn.hide();
+  
+  
+  fill(255, 153, 0);
+  textSize(32);
+  textAlign(CENTER, CENTER);
+  text('POSE', buttonX, height*0.77); //height*0.825
+  
+  
+  // 포즈 사진 모음
+  //fill(255);
+  //noStroke();
+  //rect(width*0.1, height*0.86, height*0.13, height*0.13);
+
+  //슬라이더 배경
+  fill(200);
+  noStroke();
+  rectMode(CENTER);
+  //rect(width / 2, height - 50, sliderWidth, 20, 10);
+  rect(300, 300, sliderWidth, 20, 10); /*test*/
+
+  // 이미지 표시
+  imageMode(CENTER);
+  image(images[currentImage], 200, 200);
+
+  // 터치 슬라이더 표시
+  fill(100);
+  ellipse(map(currentImage, 0, images.length - 1, width * 0.1, width * 0.9), height - 50, 30);
+
+  // 드래그 중이면 이미지 변경
+  if (dragging) {
+    let offsetX = mouseX - startX;
+    let index = int(map(offsetX, 0, sliderWidth, 0, images.length - 1));
+    currentImage = constrain(index, 0, images.length - 1);
+  }
+  
+}
+
+function touchStarted() {
+  if (dist(mouseX, mouseY, map(currentImage, 0, images.length - 1, width * 0.1, width * 0.9), height - 50) < 30 / 2) {
+    dragging = true;
+    startX = mouseX;
+  }
+}
+
+function touchMoved() {
+  // 드래그 중일 때 이미지 변경
+  if (dragging) {
+    let offsetX = mouseX - startX;
+    let index = int(map(offsetX, 0, sliderWidth, 0, images.length - 1));
+    currentImage = constrain(index, 0, images.length - 1);
+  }
+}
+
+function touchEnded() {
+  dragging = false;
+}
+
+
+
