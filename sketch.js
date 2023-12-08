@@ -1,15 +1,18 @@
-let buttonX, buttonY; //button 위치 조정 변수
-
+let buttonX, buttonY;
 let video;
 let menu, flip;
 let pic1, pic2, pic3, pic4;
-
 let shutterBtn;
 let autoBtn;
 let poseBtn;
+let isVisible = true;
 
-let isVisible = true; // 밑 탭들이 보이게 안보이게 선택하는 조건
-
+let poseNet;
+let pose;
+let poseTrainModel;
+let state = 'waiting';
+let targetLabel = 'Z';
+let currentPoseLabel;
 
 function preload() {
   menu = loadImage("menu.png");
@@ -26,7 +29,7 @@ function setup() {
   buttonY = height / 2;
 
   video = createCapture(VIDEO);
-  video.size(width, height * 0.66); // 0.7  0.65
+  //video.size(width, height * 0.66);
   video.hide();
   layoutDraw();
 
@@ -35,7 +38,7 @@ function setup() {
   shutterBtn = createButton('');
   shutterBtn.class('shutterBtn');
   shutterBtn.position(buttonX - (height * 0.12) / 2, height * 0.88 - (height * 0.12) / 2);
-  shutterBtn.size(height * 0.12, height * 0.12); // 0.09 & 0.91
+  shutterBtn.size(height * 0.12, height * 0.12);
   captureBtn();
 
   autoBtn = createButton('AUTO');
@@ -49,44 +52,62 @@ function setup() {
   poseBtn.size(height * 0.11, height * 0.1);
 
   // pic1 버튼
-  pic1Btn = createImg('poseimg1.JPG');
+  pic1Btn = createImg('poseimg2.JPG');
   pic1Btn.position(width * 0.03, height * 0.81);
   pic1Btn.size(height * 0.14, height * 0.15);
   pic1Btn.hide();
-  //pic1Btn.mousePressed(click_pic2);
-  
-  // pic2 버튼으로 만듦
-  pic2Btn = createImg('poseimg2.JPG');
+
+  // pic2 버튼
+  pic2Btn = createImg('poseimg1.JPG');
   pic2Btn.position(width * 0.28, height * 0.81);
   pic2Btn.size(height * 0.14, height * 0.15);
   pic2Btn.hide();
   pic2Btn.mousePressed(click_pic2);
-  
-  // pic3 버튼으로 만듦
+
+  // pic3 버튼
   pic3Btn = createImg('poseimg3.JPG');
   pic3Btn.position(width * 0.53, height * 0.81);
   pic3Btn.size(height * 0.14, height * 0.15);
   pic3Btn.hide();
-  //pic3Btn.mousePressed(click_pic2);
-  
-  // pic4 버튼으로 만듦
+
+  // pic4 버튼
   pic4Btn = createImg('poseimg4.JPG');
   pic4Btn.position(width * 0.78, height * 0.81);
   pic4Btn.size(height * 0.14, height * 0.15);
   pic4Btn.hide();
-  //pic3Btn.mousePressed(click_pic2);
-  
-
-  
 
   shutterBtn.mousePressed(capture);
   poseBtn.mousePressed(posetab);
+
+  // Initialize poseNet and poseTrainModel
+  poseNet = ml5.poseNet(video, modelLoaded);
+  poseNet.on('pose', gotPoses);
+
+  let options = {
+    inputs: 34,
+    outputs: 3,
+    task: 'classification',
+    debug: true
+  };
+
+  poseTrainModel = ml5.neuralNetwork(options);
+
+  const modelInfo = {
+    model: 'model/model.json',
+    metadata: 'model/model_meta.json',
+    weights: 'model/model.weights.bin',
+  };
+
+  poseTrainModel.load(modelInfo, poseTrainModelLoaded);
 }
 
 function draw() {
-  image(video, 0, height * 0.08);
+  image(video, 0, height * 0.08, width, height * 0.66);
   image(menu, width * 0.03, height * 0.03, width * 0.06, height * 0.04);
   image(flip, width * 0.91, height * 0.03, width * 0.06, height * 0.04);
+  
+
+
 }
 
 function layoutDraw() {
@@ -124,29 +145,120 @@ function posetab() {
   textAlign(CENTER, CENTER);
   text('POSE', buttonX, height * 0.77);
 
-  // 이미지 엘리먼트를 보여줌
+  // image element
   pic1Btn.show();
   pic2Btn.show();
   pic3Btn.show();
   pic4Btn.show();
-  //image(pic1, width * 0.03, height * 0.81, height * 0.14, height * 0.15);
-  //image(pic3, width * 0.53, height * 0.81, height * 0.14, height * 0.15);
-  //image(pic4, width * 0.78, height * 0.81, height * 0.14, height * 0.15);
+
 }
 
 function click_pic2() {
   console.log('good!');
   pic2Btn.position(width * 0.28, height * 0.81);
   pic2Btn.size(height * 0.16, height * 0.16);
-  
+
   pic2Btn.style('border', '4px solid rgb(255, 153, 0)');
   pic2Btn.style('border-radius', '10%');
+
+  pic3Btn.position(width * 0.57, height * 0.81);
+  pic4Btn.position(width * 0.84, height * 0.81);
   
-  pic3Btn.position(width * 0.55, height * 0.81);
-  //pic3Btn.size(height * 0.14, height * 0.15);
-  pic4Btn.position(width * 0.82, height * 0.81);
-  //pic4Btn.size(height * 0.14, height * 0.15);
+  
+  fill(255, 0, 0); // 텍스트 색상을 빨강으로 설정
+  textSize(100);
+  textAlign(CENTER);
+  
+  if (currentPoseLabel === 'Z') { 
+    text('sample pose', width / 2, height * 0.5);
+  }
+
+  
 }
 
 
+
+function keyPressed() {
+  if (key == 's') {
+    poseTrainModel.saveData();
+  } else {
+    targetLabel = 'c';
+    console.log(targetLabel);
+    setTimeout(function () {
+      console.log('collecting');
+      state = 'collecting';
+      setTimeout(function () {
+        console.log('not collecting');
+        state = 'waiting';
+      }, 30000);
+    }, 5000);
+  }
+}
+
+function poseTrainModelLoaded() {
+  console.log('pose classification ready!');
+  classifyPose();
+}
+
+function classifyPose() {
+  if (pose) {
+    let inputs = [];
+    for (let i = 0; i < pose.keypoints.length; i++) {
+      let x = pose.keypoints[i].position.x;
+      let y = pose.keypoints[i].position.y;
+      inputs.push(x);
+      inputs.push(y);
+    }
+    poseTrainModel.classify(inputs, gotResult);
+  } else {
+    setTimeout(classifyPose, 100);
+  }
+}
+
+function gotResult(error, results) {
+  if (results[0].confidence > 0.75) {
+    currentPoseLabel = results[0].label.toUpperCase();
+    console.log(currentPoseLabel);
+
+    if (currentPoseLabel === targetLabel) {
+      //console.log('촬영이 시작됩니다.');
+      /* 생략*/
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text('자세를 맞춰주세요', width / 2, height * 0.03);
+  
+    } 
+    else if (currentPoseLabel === 'X') {
+      console.log('X포즈입니다');
+    } else if (currentPoseLabel === 'C') {
+      console.log('CCCCCCC포즈입니다');
+    } else {
+      console.log('NOO');
+    }
+  }
+  classifyPose();
+}
+
+function gotPoses(poses) {
+  if (poses.length > 0) {
+    pose = poses[0].pose;
+    skeleton = poses[0].skeleton;
+    if (state == 'collecting') {
+      let inputs = [];
+      for (let i = 0; i < pose.keypoints.length; i++) {
+        let x = pose.keypoints[i].position.x;
+        let y = pose.keypoints[i].position.y;
+        inputs.push(x);
+        inputs.push(y);
+      }
+      let target = [targetLabel];
+      poseTrainModel.addData(inputs, target);
+    }
+  }
+}
+
+function modelLoaded() {
+  console.log('poseNet ready');
+}
 
