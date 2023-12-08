@@ -165,12 +165,19 @@ function click_pic2() {
   pic4Btn.position(width * 0.84, height * 0.81);
   
   
-  fill(255, 0, 0); // 텍스트 색상을 빨강으로 설정
-  textSize(100);
+  
+  fill(255, 0, 0); 
+  textSize(30);
   textAlign(CENTER);
   
-  if (currentPoseLabel === 'Z') { 
-    text('sample pose', width / 2, height * 0.5);
+  if (currentPoseLabel === 'X') { 
+    text('X포즈입니다', width / 2, height * 0.03);
+  }
+  if (currentPoseLabel === 'Z'){ 
+    text('자세 조정해주세요', width / 2, height * 0.03);
+  }
+  if (currentPoseLabel === 'C'){ 
+    text('C포즈입니다', width / 2, height * 0.03);
   }
 
   
@@ -222,11 +229,11 @@ function gotResult(error, results) {
 
     if (currentPoseLabel === targetLabel) {
       //console.log('촬영이 시작됩니다.');
-      /* 생략*/
+      /* 생략
       fill(0);
       textSize(30);
       textAlign(CENTER);
-      text('자세를 맞춰주세요', width / 2, height * 0.03);
+      text('자세를 맞춰주세요', width / 2, height * 0.03);*/
   
     } 
     else if (currentPoseLabel === 'X') {
