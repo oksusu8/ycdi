@@ -44,10 +44,16 @@ function setup() {
   shutterBtn.size(height*0.12, height*0.12); // 0.09 & 0.91
   captureBtn();
   
+  /*
   autoBtn = createButton('Auto');
   autoBtn.class('autoBtn');
   autoBtn.position(width*0.91, height*0.68);
-  autoBtn.size(height*0.05, height*0.05);
+  autoBtn.size(height*0.05, height*0.05);*/
+  
+  autoBtn = createButton('AUTO');
+  autoBtn.class('autoBtn');
+  autoBtn.position(width-(width*0.75+height*0.11), height*0.88-(height*0.09)/2);
+  autoBtn.size(height*0.11, height*0.1);
   
   poseBtn = createButton('POSE');
   poseBtn.class('poseBtn');
@@ -65,7 +71,6 @@ function draw() {
   image(video, 0, height*0.08);
   image(menu, width*0.03, height*0.03, width*0.06, height*0.04);
   image(flip, width*0.91, height*0.03, width*0.06, height*0.04);
-  
   
   
   
@@ -104,10 +109,11 @@ function posetab() {
   circle(buttonX, height*0.88, height*0.14);
   shutterBtn.hide();
   poseBtn.hide();
+  autoBtn.hide();
   
-  
+
   fill(255, 153, 0);
-  textSize(32);
+  textSize(34);
   textAlign(CENTER, CENTER);
   text('POSE', buttonX, height*0.77); //height*0.825
   
@@ -115,12 +121,11 @@ function posetab() {
   // 포즈 사진 모음
   fill(255);
   noStroke();
-  //rect(width*0.1, height*0.86, height*0.13, height*0.13);
   //원래 0.1, 0.3, 0.5, 0.7, 0.9... height 0.86 / size: height*0.13
   image(pic1, width*0.05, height*0.8, height*0.14, height*0.14);
   image(pic1, width*0.3, height*0.8, height*0.14, height*0.14);
   image(pic1, width*0.55, height*0.8, height*0.14, height*0.14);
-  image(pic1, width*0.7, height*0.8, height*0.14, height*0.14);
+  image(pic1, width*0.8, height*0.8, height*0.14, height*0.14);
   //image(pic1, width*0.9, height*0.8, height*0.14, height*0.14);
 
 

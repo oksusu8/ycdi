@@ -14,6 +14,8 @@ canvas {
   border-radius : 50%;
 }
 
+/*
+
 .autoBtn {
   background-color: black;
   opacity: 35%;
@@ -23,8 +25,18 @@ canvas {
   color: #ff9900;
   text-align: center;
   justify-content: center;
-  font-size: 25px;
+  font-size: 27px;
   
+}*/
+
+.autoBtn {
+  background-color: #242424;
+  border-radius : 8px;
+  border: none;
+  
+  font-size: 32px;
+  color: white;
+  text-align: center;
 }
 
 .poseBtn {
