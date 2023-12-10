@@ -14,6 +14,8 @@ let state = 'waiting';
 let targetLabel = 'Z';
 let currentPoseLabel;
 
+let tempState = 0;
+
 function preload() {
   menu = loadImage("menu.png");
   flip = loadImage("flip.png");
@@ -53,27 +55,39 @@ function setup() {
 
   // pic1 버튼
   pic1Btn = createImg('poseimg2.JPG');
-  pic1Btn.position(width * 0.03, height * 0.81);
-  pic1Btn.size(height * 0.14, height * 0.15);
+  pic1Btn.position(width * 0.03, height * 0.83);//height * 0.81 -> height * 0.83
+  pic1Btn.size(height * 0.15, height * 0.16);
+  //pic1Btn.size(height * 0.14, height * 0.15);
+  pic1Btn.style('border-radius', '5%');
   pic1Btn.hide();
 
   // pic2 버튼
   pic2Btn = createImg('poseimg1.JPG');
-  pic2Btn.position(width * 0.28, height * 0.81);
-  pic2Btn.size(height * 0.14, height * 0.15);
+  pic2Btn.position(width * 0.33, height * 0.83);
+  //pic2Btn.position(buttonX-(height * 0.14 /2), height * 0.83); //height * 0.81 -> height * 0.83
+  //pic2Btn.position(width * 0.28, height * 0.81);
+  pic2Btn.size(height * 0.15, height * 0.16);
+  //pic2Btn.size(height * 0.14, height * 0.15);
+  pic2Btn.style('border-radius', '5%');
   pic2Btn.hide();
   pic2Btn.mousePressed(click_pic2);
 
   // pic3 버튼
   pic3Btn = createImg('poseimg3.JPG');
-  pic3Btn.position(width * 0.53, height * 0.81);
-  pic3Btn.size(height * 0.14, height * 0.15);
+  pic3Btn.position(width * 0.63, height * 0.83);
+  //pic3Btn.position(width * 0.53, height * 0.83);//height * 0.81 -> height * 0.83
+  pic3Btn.size(height * 0.15, height * 0.16);
+  pic3Btn.style('border-radius', '5%');
+  //pic3Btn.size(height * 0.14, height * 0.15);
   pic3Btn.hide();
 
   // pic4 버튼
   pic4Btn = createImg('poseimg4.JPG');
-  pic4Btn.position(width * 0.78, height * 0.81);
-  pic4Btn.size(height * 0.14, height * 0.15);
+  pic4Btn.position(width * 0.93, height * 0.83);
+  //pic4Btn.position(width * 0.78, height * 0.83);//height * 0.81 -> height * 0.83
+  pic4Btn.size(height * 0.15, height * 0.16);
+  //pic4Btn.size(height * 0.14, height * 0.15);
+  pic4Btn.style('border-radius', '5%');
   pic4Btn.hide();
 
   shutterBtn.mousePressed(capture);
@@ -102,11 +116,25 @@ function setup() {
 }
 
 function draw() {
-  image(video, 0, height * 0.08, width, height * 0.66);
-  image(menu, width * 0.03, height * 0.03, width * 0.06, height * 0.04);
-  image(flip, width * 0.91, height * 0.03, width * 0.06, height * 0.04);
+  image(video, 0, height * 0.07, width, height * 0.66); //height * 0.08 -> 0.07
+  image(menu, width * 0.03, height * 0.02, width * 0.06, height * 0.03);
+  image(flip, width * 0.91, height * 0.02, width * 0.06, height * 0.03);
   
-
+  if(tempState == 0){
+    fill(255, 0, 0); 
+    textSize(30);
+    textAlign(CENTER);
+  
+    if (currentPoseLabel === 'X') { 
+      text('X포즈입니다', width / 2, height * 0.5);
+    }
+    if (currentPoseLabel === 'Z'){ 
+      text('Z포즈입니다. ', width / 2, height * 0.5);
+    }
+    if (currentPoseLabel === 'C'){ 
+      text('C포즈입니다', width / 2, height * 0.5);
+    }
+  }
 
 }
 
@@ -114,7 +142,7 @@ function layoutDraw() {
   // 상단 레이아웃 박스
   fill(255);
   noStroke();
-  rect(0, 0, width, height * 0.08);
+  rect(0, 0, width, height * 0.07);
 
   fill(0);
   noStroke();
@@ -141,9 +169,17 @@ function posetab() {
   autoBtn.hide();
 
   fill(255, 153, 0);
-  textSize(34);
+  textSize(36);
   textAlign(CENTER, CENTER);
-  text('POSE', buttonX, height * 0.77);
+  text('SPOT', buttonX, height * 0.77);
+  
+  fill(204, 195, 182);
+  textSize(33);
+  textAlign(CENTER, CENTER);
+  text('POSE', width*0.63, height * 0.78) // SPOT 글씨보다 더 아래로 
+  text('SELFIE', width*0.73, height * 0.78) // SPOT 글씨보다 더 아래로 
+  
+  
 
   // image element
   pic1Btn.show();
@@ -155,17 +191,22 @@ function posetab() {
 
 function click_pic2() {
   console.log('good!');
-  pic2Btn.position(width * 0.28, height * 0.81);
-  pic2Btn.size(height * 0.16, height * 0.16);
+  pic2Btn.position(buttonX-(height * 0.17 /2), height * 0.82); //83 -> 82
+  //pic2Btn.position(width * 0.28, height * 0.81);
+  pic2Btn.size(height * 0.17, height * 0.18);
 
   pic2Btn.style('border', '4px solid rgb(255, 153, 0)');
   pic2Btn.style('border-radius', '10%');
-
-  pic3Btn.position(width * 0.57, height * 0.81);
-  pic4Btn.position(width * 0.84, height * 0.81);
+  
+  pic3Btn.position(2*buttonX-width*0.03-height*0.14);
+  //pic3Btn.position(buttonX-width*0.03-height*0.09, height*0.83);
+  //pic3Btn.position(width * 0.57, height * 0.83);
+  pic4Btn.hide();
+  //pic4Btn.position(width * 0.84, height * 0.81);
   
   
   
+  /*
   fill(255, 0, 0); 
   textSize(30);
   textAlign(CENTER);
@@ -178,7 +219,7 @@ function click_pic2() {
   }
   if (currentPoseLabel === 'C'){ 
     text('C포즈입니다', width / 2, height * 0.03);
-  }
+  }*/
 
   
 }
