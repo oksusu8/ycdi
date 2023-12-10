@@ -20,7 +20,7 @@ canvas {
   border-radius : 8px;
   border: none;
   
-  font-size: 32px;
+  font-size: 34px; /*32*/
   color: white;
   text-align: center;
 }
@@ -30,7 +30,7 @@ canvas {
   border-radius : 8px;
   border: none;
   
-  font-size: 32px;
+  font-size: 34px; /*32*/
   color: white;
   text-align: center;
   

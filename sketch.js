@@ -39,23 +39,24 @@ function setup() {
 
   shutterBtn = createButton('');
   shutterBtn.class('shutterBtn');
-  shutterBtn.position(buttonX - (height * 0.12) / 2, height * 0.88 - (height * 0.12) / 2);
+  shutterBtn.position(buttonX - (height * 0.12) / 2, height * 0.87 - (height * 0.12) / 2);
   shutterBtn.size(height * 0.12, height * 0.12);
   captureBtn();
 
   autoBtn = createButton('AUTO');
   autoBtn.class('autoBtn');
-  autoBtn.position(width - (width * 0.75 + height * 0.11), height * 0.88 - (height * 0.09) / 2);
+  autoBtn.position(width - (width * 0.75 + height * 0.11), height * 0.87 - (height * 0.09) / 2);
+  //autoBtn.position(width - (width * 0.75 + height * 0.11), height * 0.88 - (height * 0.09) / 2);
   autoBtn.size(height * 0.11, height * 0.1);
 
   poseBtn = createButton('POSE');
   poseBtn.class('poseBtn');
-  poseBtn.position(width - (width * 0.25), height * 0.88 - (height * 0.09) / 2);
+  poseBtn.position(width - (width * 0.25), height * 0.87 - (height * 0.09) / 2);
   poseBtn.size(height * 0.11, height * 0.1);
 
   // pic1 버튼
   pic1Btn = createImg('poseimg2.JPG');
-  pic1Btn.position(width * 0.03, height * 0.83);//height * 0.81 -> height * 0.83
+  pic1Btn.position(width * 0.03, height * 0.81);//height * 0.81 -> height * 0.83
   pic1Btn.size(height * 0.15, height * 0.16);
   //pic1Btn.size(height * 0.14, height * 0.15);
   pic1Btn.style('border-radius', '5%');
@@ -63,7 +64,7 @@ function setup() {
 
   // pic2 버튼
   pic2Btn = createImg('poseimg1.JPG');
-  pic2Btn.position(width * 0.33, height * 0.83);
+  pic2Btn.position(width * 0.33, height * 0.81);
   //pic2Btn.position(buttonX-(height * 0.14 /2), height * 0.83); //height * 0.81 -> height * 0.83
   //pic2Btn.position(width * 0.28, height * 0.81);
   pic2Btn.size(height * 0.15, height * 0.16);
@@ -74,7 +75,7 @@ function setup() {
 
   // pic3 버튼
   pic3Btn = createImg('poseimg3.JPG');
-  pic3Btn.position(width * 0.63, height * 0.83);
+  pic3Btn.position(width * 0.63, height * 0.81);
   //pic3Btn.position(width * 0.53, height * 0.83);//height * 0.81 -> height * 0.83
   pic3Btn.size(height * 0.15, height * 0.16);
   pic3Btn.style('border-radius', '5%');
@@ -83,7 +84,7 @@ function setup() {
 
   // pic4 버튼
   pic4Btn = createImg('poseimg4.JPG');
-  pic4Btn.position(width * 0.93, height * 0.83);
+  pic4Btn.position(width * 0.93, height * 0.81);
   //pic4Btn.position(width * 0.78, height * 0.83);//height * 0.81 -> height * 0.83
   pic4Btn.size(height * 0.15, height * 0.16);
   //pic4Btn.size(height * 0.14, height * 0.15);
@@ -169,15 +170,16 @@ function posetab() {
   autoBtn.hide();
 
   fill(255, 153, 0);
-  textSize(36);
+  textSize(38);
   textAlign(CENTER, CENTER);
+  textStyle(BOLD);
   text('SPOT', buttonX, height * 0.77);
   
   fill(204, 195, 182);
   textSize(33);
   textAlign(CENTER, CENTER);
-  text('POSE', width*0.63, height * 0.78) // SPOT 글씨보다 더 아래로 
-  text('SELFIE', width*0.73, height * 0.78) // SPOT 글씨보다 더 아래로 
+  text('POSE', width*0.63, height * 0.77) 
+  text('SELFIE', width*0.76, height * 0.77)
   
   
 
@@ -191,37 +193,16 @@ function posetab() {
 
 function click_pic2() {
   console.log('good!');
-  pic2Btn.position(buttonX-(height * 0.17 /2), height * 0.82); //83 -> 82
+  pic2Btn.position(buttonX-(height * 0.17 /2), height * 0.8); //83 -> 82
   //pic2Btn.position(width * 0.28, height * 0.81);
   pic2Btn.size(height * 0.17, height * 0.18);
 
   pic2Btn.style('border', '4px solid rgb(255, 153, 0)');
   pic2Btn.style('border-radius', '10%');
   
-  pic3Btn.position(2*buttonX-width*0.03-height*0.14);
-  //pic3Btn.position(buttonX-width*0.03-height*0.09, height*0.83);
+  pic3Btn.position(2*buttonX-width*0.03-height*0.14, height * 0.81);
   //pic3Btn.position(width * 0.57, height * 0.83);
   pic4Btn.hide();
-  //pic4Btn.position(width * 0.84, height * 0.81);
-  
-  
-  
-  /*
-  fill(255, 0, 0); 
-  textSize(30);
-  textAlign(CENTER);
-  
-  if (currentPoseLabel === 'X') { 
-    text('X포즈입니다', width / 2, height * 0.03);
-  }
-  if (currentPoseLabel === 'Z'){ 
-    text('자세 조정해주세요', width / 2, height * 0.03);
-  }
-  if (currentPoseLabel === 'C'){ 
-    text('C포즈입니다', width / 2, height * 0.03);
-  }*/
-
-  
 }
 
 
