@@ -18,6 +18,8 @@ let currentPoseLabel;
 let tempState = 0;
 let poseState = 0;
 let autoState = 0;
+let clickpic2num = 0; //pic2 클릭 횟수
+//let cameraState = 0; /* 찍을건지 안찍을건지 */
 
 
 function preload() {
@@ -51,7 +53,7 @@ function setup() {
   autoBtn = createButton('AUTO');
   autoBtn.style('text-align', 'center');
   autoBtn.class('autoBtn');
-  autoBtn.position(width/2-(width*0.15/2), height * 0.02);
+  autoBtn.position(width/2-(width*0.15/2), height * 0.015);
   autoBtn.size(width*0.15, height * 0.04);
 
   
@@ -84,7 +86,14 @@ function setup() {
   //pic2Btn.size(height * 0.14, height * 0.15);
   pic2Btn.style('border-radius', '5%');
   pic2Btn.hide();
-  pic2Btn.mousePressed(click_pic2);
+  //pic2Btn.mousePressed(click_pic2);
+  
+  //예시
+  if (clickpic2num == 0) {
+    pic2Btn.mousePressed(click_pic2);
+  }
+  
+  
 
   // pic3 버튼
   pic3Btn = createImg('poseimg3.JPG');
@@ -146,6 +155,8 @@ function draw() {
     //line(width/2-(width*0.15/2), height * 0.06, width/2+(width*0.15/2), height * 0.02); // 취소선
   }
   
+
+  
   if(tempState == 0){
     fill(255, 0, 0); 
     textSize(30);
@@ -191,11 +202,25 @@ function captureBtn() {
 
 //촬영 효과 함수
 function capture() {
-  //background(255);
-  fill(200);
+  console.log('done done!!!!');
+  
+  fill(0);
   noStroke();
-  //rect(0, height * 0.07, width, height * 0.66);
-  rect(0, 0, width, height * 0.66);
+  rect(0, height * 0.73, width, height * 0.27);
+  
+  //캡쳐버튼 데코
+  fill(255);
+  noStroke();
+  circle(buttonX, height * 0.88, height * 0.13);
+  
+  shutterBtn.show();
+  poseBtn.show();
+  autoBtn.show();
+  
+  pic1Btn.hide();
+  pic2Btn.hide();
+  pic3Btn.hide();
+  pic4Btn.hide();
   
 }
 
@@ -207,6 +232,11 @@ function posetab() {
   shutterBtn.hide();
   poseBtn.hide();
   autoBtn.hide();
+  // AUTO ON 텍스트 지우기
+  fill(0);
+  noStroke();
+  rectMode(CENTER);
+  rect(buttonX, height * 0.77, 600, 120);
 
   fill(255, 153, 0);
   textSize(41);
@@ -248,6 +278,12 @@ function click_pic2() {
   // click_pic2() 버튼이 실행된 후 targetlabel이 Z에 해당할 경우
   // state를 설정하는 버튼이 따로 있어야할 것 같음. 
   poseState = 1;
+  clickpic2num = 1;
+  
+  if (clickpic2num == 1) {
+    pic2Btn.mousePressed(capture);
+  }
+  
 }
 
 
@@ -267,14 +303,15 @@ function autoBtn_click() {
   textAlign(CENTER);
   text('AUTO ON', buttonX, height * 0.77);
 
+  /*
   // 일정 시간 후에 텍스트 사라지도록 설정
   setTimeout(function () {
     // 텍스트 지우기
     fill(0);
     noStroke();
     rectMode(CENTER);
-    rect(buttonX, height * 0.77, 600, 200);
-  }, 4000);
+    rect(buttonX, height * 0.77, 600, 120);
+  }, 4000);*/
 
   
 }
