@@ -22,8 +22,8 @@ let clickpic2num = 0; //pic2 클릭 횟수
 //let cameraState = 0; /* 찍을건지 안찍을건지 */
 
 //캡쳐 효과 변수
-let isCapturingEffect = false;
-let captureEffectDuration = 3000; // 촬영 효과 지속 시간 (밀리초)
+//let isCapturingEffect = false;
+//let captureEffectDuration = 3000; // 촬영 효과 지속 시간 (밀리초)
 
 
 function preload() {
@@ -242,7 +242,7 @@ function capture() {
   
   fill(0);
   noStroke();
-  rect(0, height * 0.73, 1280, height * 0.11);
+  rect(0, height * 0.73, width*2, height * 0.11);
   
   
 }
