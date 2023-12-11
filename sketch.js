@@ -2,6 +2,7 @@ let buttonX, buttonY;
 let video;
 let menu, flip;
 let pic1, pic2, pic3, pic4;
+let sample;
 let shutterBtn;
 let autoBtn;
 let poseBtn;
@@ -23,6 +24,7 @@ function preload() {
   pic2 = loadImage('poseimg2.JPG');
   pic3 = loadImage('poseimg3.JPG');
   pic4 = loadImage('poseimg4.JPG');
+  sample = loadImage('sample.png');
 }
 
 function setup() {
@@ -39,7 +41,7 @@ function setup() {
 
   shutterBtn = createButton('');
   shutterBtn.class('shutterBtn');
-  shutterBtn.position(buttonX - (height * 0.12) / 2, height * 0.87 - (height * 0.12) / 2);
+  shutterBtn.position(buttonX - (height * 0.12) / 2, height * 0.88 - (height * 0.12) / 2);
   shutterBtn.size(height * 0.12, height * 0.12);
   captureBtn();
 
@@ -90,7 +92,10 @@ function setup() {
   //pic4Btn.size(height * 0.14, height * 0.15);
   pic4Btn.style('border-radius', '5%');
   pic4Btn.hide();
-
+  
+  // 카메라 격자 그리기
+  //drawGrid(3,3);
+  
   shutterBtn.mousePressed(capture);
   poseBtn.mousePressed(posetab);
 
@@ -120,6 +125,7 @@ function draw() {
   image(video, 0, height * 0.07, width, height * 0.66); //height * 0.08 -> 0.07
   image(menu, width * 0.03, height * 0.02, width * 0.06, height * 0.03);
   image(flip, width * 0.91, height * 0.02, width * 0.06, height * 0.03);
+  drawGrid(3,3);
   
   if(tempState == 0){
     fill(255, 0, 0); 
@@ -130,6 +136,10 @@ function draw() {
       text('X포즈입니다', width / 2, height * 0.5);
     }
     if (currentPoseLabel === 'Z'){ 
+      tint(255, 128); // RGB 색상과 투명도 (127은 투명도를 나타냄)
+      image(sample, 0, height * 0.07, width, height * 0.66);
+      noTint();
+      noStroke();
       text('Z포즈입니다. ', width / 2, height * 0.5);
     }
     if (currentPoseLabel === 'C'){ 
@@ -170,13 +180,14 @@ function posetab() {
   autoBtn.hide();
 
   fill(255, 153, 0);
-  textSize(38);
+  textSize(41);
   textAlign(CENTER, CENTER);
   textStyle(BOLD);
   text('SPOT', buttonX, height * 0.77);
   
   fill(204, 195, 182);
   textSize(33);
+  textStyle(NORMAL);
   textAlign(CENTER, CENTER);
   text('POSE', width*0.63, height * 0.77) 
   text('SELFIE', width*0.76, height * 0.77)
@@ -192,7 +203,7 @@ function posetab() {
 }
 
 function click_pic2() {
-  console.log('good!');
+  //console.log('good!');
   pic2Btn.position(buttonX-(height * 0.17 /2), height * 0.8); //83 -> 82
   //pic2Btn.position(width * 0.28, height * 0.81);
   pic2Btn.size(height * 0.17, height * 0.18);
@@ -203,6 +214,15 @@ function click_pic2() {
   pic3Btn.position(2*buttonX-width*0.03-height*0.14, height * 0.81);
   //pic3Btn.position(width * 0.57, height * 0.83);
   pic4Btn.hide();
+}
+
+function drawGrid(rows, cols) {
+  stroke(255,255,255,130);
+  strokeWeight(1);
+  line(width*0.3, height*0.07, width*0.3, height*0.73);
+  line(width*0.6, height*0.07, width*0.6, height*0.73);
+  line(0, height*0.29, width, height*0.29);
+  line(0, height*0.51, width, height*0.51);
 }
 
 
