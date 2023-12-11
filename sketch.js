@@ -253,11 +253,29 @@ function click_pic2() {
 
 function autoBtn_click() {
   autoState = 1;
-  console.log("auto ON");
+  
   autoBtn.style('text-decoration', 'none');
   autoBtn.style('backgroundColor', '#ff9900');
   autoBtn.style('color', 'white');
   autoBtn.style('border', 'none');
+  
+  
+  
+  fill(255, 153, 0);
+  textSize(30);
+  noStroke();
+  textAlign(CENTER);
+  text('AUTO ON', buttonX, height * 0.77);
+
+  // 일정 시간 후에 텍스트 사라지도록 설정
+  setTimeout(function () {
+    // 텍스트 지우기
+    fill(0);
+    noStroke();
+    rectMode(CENTER);
+    rect(buttonX, height * 0.77, 600, 200);
+  }, 4000);
+
   
 }
 
