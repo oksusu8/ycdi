@@ -14,13 +14,23 @@ canvas {
   border-radius : 50%;
 }
 
-
 .autoBtn {
+  background-color: white;
+  border: gray 1px solid;
+  border-radius : 10%;
+  
+  font-size: 28px;
+  color: gray;
+  text-align: center;
+}
+
+
+.gallBtn {
   background-color: #242424;
   border-radius : 8px;
   border: none;
   
-  font-size: 34px; /*32*/
+  font-size: 34px; 
   color: white;
   text-align: center;
 }

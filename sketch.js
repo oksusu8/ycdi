@@ -16,6 +16,7 @@ let targetLabel = 'Z';
 let currentPoseLabel;
 
 let tempState = 0;
+let poseState = 0;
 
 function preload() {
   menu = loadImage("menu.png");
@@ -24,7 +25,7 @@ function preload() {
   pic2 = loadImage('poseimg2.JPG');
   pic3 = loadImage('poseimg3.JPG');
   pic4 = loadImage('poseimg4.JPG');
-  sample = loadImage('sample.png');
+  sample = loadImage('skeleton.png');
 }
 
 function setup() {
@@ -44,12 +45,19 @@ function setup() {
   shutterBtn.position(buttonX - (height * 0.12) / 2, height * 0.88 - (height * 0.12) / 2);
   shutterBtn.size(height * 0.12, height * 0.12);
   captureBtn();
-
+  
   autoBtn = createButton('AUTO');
   autoBtn.class('autoBtn');
-  autoBtn.position(width - (width * 0.75 + height * 0.11), height * 0.87 - (height * 0.09) / 2);
-  //autoBtn.position(width - (width * 0.75 + height * 0.11), height * 0.88 - (height * 0.09) / 2);
-  autoBtn.size(height * 0.11, height * 0.1);
+  autoBtn.position(width/2-(width*0.1/2), height * 0.02);
+  autoBtn.size(width*0.1, height * 0.03);
+
+  
+  // GalleryBtn (왼쪽 하단)
+  gallBtn = createButton('PHOTO');
+  gallBtn.class('gallBtn');
+  gallBtn.position(width - (width * 0.75 + height * 0.11), height * 0.87 - (height * 0.09) / 2);
+  gallBtn.size(height * 0.11, height * 0.1);
+  
 
   poseBtn = createButton('POSE');
   poseBtn.class('poseBtn');
@@ -135,12 +143,16 @@ function draw() {
     if (currentPoseLabel === 'X') { 
       text('X포즈입니다', width / 2, height * 0.5);
     }
-    if (currentPoseLabel === 'Z'){ 
+    if (currentPoseLabel === 'Z' && poseState == 1){ 
       tint(255, 128); // RGB 색상과 투명도 (127은 투명도를 나타냄)
       image(sample, 0, height * 0.07, width, height * 0.66);
       noTint();
       noStroke();
-      text('Z포즈입니다. ', width / 2, height * 0.5);
+      
+      //capture(); // 촬영 효과
+      
+      
+      //text('Z포즈입니다. ', width / 2, height * 0.5);
     }
     if (currentPoseLabel === 'C'){ 
       text('C포즈입니다', width / 2, height * 0.5);
@@ -166,8 +178,14 @@ function captureBtn() {
   circle(buttonX, height * 0.88, height * 0.13);
 }
 
+//촬영 효과 함수
 function capture() {
-  background(255);
+  //background(255);
+  fill(200);
+  noStroke();
+  //rect(0, height * 0.07, width, height * 0.66);
+  rect(0, 0, width, height * 0.66);
+  
 }
 
 function posetab() {
@@ -214,6 +232,13 @@ function click_pic2() {
   pic3Btn.position(2*buttonX-width*0.03-height*0.14, height * 0.81);
   //pic3Btn.position(width * 0.57, height * 0.83);
   pic4Btn.hide();
+  
+  
+  // click_pic2() 버튼이 실행된 후 targetlabel이 Z에 해당할 경우
+  // state를 설정하는 버튼이 따로 있어야할 것 같음. 
+  poseState = 1;
+  
+  
 }
 
 function drawGrid(rows, cols) {
