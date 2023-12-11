@@ -17,6 +17,8 @@ let currentPoseLabel;
 
 let tempState = 0;
 let poseState = 0;
+let autoState = 0;
+
 
 function preload() {
   menu = loadImage("menu.png");
@@ -47,9 +49,10 @@ function setup() {
   captureBtn();
   
   autoBtn = createButton('AUTO');
+  autoBtn.style('text-align', 'center');
   autoBtn.class('autoBtn');
-  autoBtn.position(width/2-(width*0.1/2), height * 0.02);
-  autoBtn.size(width*0.1, height * 0.03);
+  autoBtn.position(width/2-(width*0.15/2), height * 0.02);
+  autoBtn.size(width*0.15, height * 0.04);
 
   
   // GalleryBtn (왼쪽 하단)
@@ -106,6 +109,7 @@ function setup() {
   
   shutterBtn.mousePressed(capture);
   poseBtn.mousePressed(posetab);
+  autoBtn.mousePressed(autoBtn_click);
 
   // Initialize poseNet and poseTrainModel
   poseNet = ml5.poseNet(video, modelLoaded);
@@ -134,6 +138,13 @@ function draw() {
   image(menu, width * 0.03, height * 0.02, width * 0.06, height * 0.03);
   image(flip, width * 0.91, height * 0.02, width * 0.06, height * 0.03);
   drawGrid(3,3);
+  
+  if(autoState == 0) {
+    autoBtn.style('text-decoration', 'line-through');
+    //stroke(0);
+    //strokeWeight(1);
+    //line(width/2-(width*0.15/2), height * 0.06, width/2+(width*0.15/2), height * 0.02); // 취소선
+  }
   
   if(tempState == 0){
     fill(255, 0, 0); 
@@ -237,9 +248,19 @@ function click_pic2() {
   // click_pic2() 버튼이 실행된 후 targetlabel이 Z에 해당할 경우
   // state를 설정하는 버튼이 따로 있어야할 것 같음. 
   poseState = 1;
-  
+}
+
+
+function autoBtn_click() {
+  autoState = 1;
+  console.log("auto ON");
+  autoBtn.style('text-decoration', 'none');
+  autoBtn.style('backgroundColor', '#ff9900');
+  autoBtn.style('color', 'white');
+  autoBtn.style('border', 'none');
   
 }
+
 
 function drawGrid(rows, cols) {
   stroke(255,255,255,130);
