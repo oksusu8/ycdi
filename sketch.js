@@ -21,6 +21,10 @@ let autoState = 0;
 let clickpic2num = 0; //pic2 클릭 횟수
 //let cameraState = 0; /* 찍을건지 안찍을건지 */
 
+//캡쳐 효과 변수
+let isCapturingEffect = false;
+let captureEffectDuration = 3000; // 촬영 효과 지속 시간 (밀리초)
+
 
 function preload() {
   menu = loadImage("menu.png");
@@ -155,6 +159,11 @@ function draw() {
     //line(width/2-(width*0.15/2), height * 0.06, width/2+(width*0.15/2), height * 0.02); // 취소선
   }
   
+  //캡쳐 효과
+  //if (isCapturingEffect) {
+  //  captureEffect();
+  //}
+  
 
   
   if(tempState == 0){
@@ -165,17 +174,29 @@ function draw() {
     if (currentPoseLabel === 'X') { 
       text('X포즈입니다', width / 2, height * 0.5);
     }
+    /*
     if (currentPoseLabel === 'Z' && poseState == 1){ 
       tint(255, 128); // RGB 색상과 투명도 (127은 투명도를 나타냄)
       image(sample, 0, height * 0.07, width, height * 0.66);
       noTint();
       noStroke();
       
-      //capture(); // 촬영 효과
-      
-      
-      //text('Z포즈입니다. ', width / 2, height * 0.5);
+    }*/
+    
+    if(poseState == 1) {
+      tint(255, 128); // RGB 색상과 투명도 (127은 투명도를 나타냄)
+      image(sample, 0, height * 0.07, width, height * 0.66);
+      noTint();
+      noStroke();
     }
+    
+    //if (currentPoseLabel === 'Z' && poseState == 1) {
+      //startCaptureEffect();
+      //captureEffect();
+      //capture();
+    //}
+    
+    
     if (currentPoseLabel === 'C'){ 
       text('C포즈입니다', width / 2, height * 0.5);
     }
@@ -200,13 +221,9 @@ function captureBtn() {
   circle(buttonX, height * 0.88, height * 0.13);
 }
 
-//촬영 효과 함수
+//촬영 모드로
 function capture() {
   console.log('done done!!!!');
-  
-  fill(0);
-  noStroke();
-  rect(0, height * 0.73, width, height * 0.27);
   
   //캡쳐버튼 데코
   fill(255);
@@ -216,13 +233,51 @@ function capture() {
   shutterBtn.show();
   poseBtn.show();
   autoBtn.show();
+  gallBtn.show();
   
   pic1Btn.hide();
   pic2Btn.hide();
   pic3Btn.hide();
   pic4Btn.hide();
   
+  fill(0);
+  noStroke();
+  rect(0, height * 0.73, 1280, height * 0.11);
+  
+  
 }
+
+
+
+
+
+
+//촬영 효과
+/*
+function captureEffect() {
+  fill(255, 0, 0, 150); // 빨간색 반투명 효과
+  //rect(0, 0, width, height);
+  //image(sample, 0, height * 0.07, width, height * 0.66);
+  rect(0, height * 0.07, width, height * 0.66);
+}
+
+function startCaptureEffect() {
+  isCapturingEffect = true;
+
+  // 일정 시간이 지난 후에 촬영 효과 중지
+  setTimeout(stopCaptureEffect, captureEffectDuration);
+}//캡쳐
+
+
+function stopCaptureEffect() {
+  isCapturingEffect = false;
+}//캡쳐*/
+
+
+//function mouseClicked() {
+//  startCaptureEffect();
+//}//캡쳐
+
 
 function posetab() {
   isVisible = !isVisible;
@@ -232,6 +287,8 @@ function posetab() {
   shutterBtn.hide();
   poseBtn.hide();
   autoBtn.hide();
+  gallBtn.hide();
+  
   // AUTO ON 텍스트 지우기
   fill(0);
   noStroke();
