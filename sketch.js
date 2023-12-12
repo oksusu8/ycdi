@@ -26,10 +26,10 @@ let clickpic2num = 0; //pic2 클릭 횟수
 function preload() {
   menu = loadImage("menu.png");
   flip = loadImage("flip.png");
-  pic1 = loadImage('bookpose1.JPG');
-  pic2 = loadImage('bookpose2.JPG');
-  pic3 = loadImage('bookpose3.JPG');
-  pic4 = loadImage('bookpose3.JPG');
+  pic1 = loadImage('pose2.JPG');
+  pic2 = loadImage('pose2.JPG');
+  pic3 = loadImage('pose2.JPG');
+  pic4 = loadImage('pose2.JPG');
   sample = loadImage('skeleton.png');
 }
 
@@ -71,7 +71,7 @@ function setup() {
   poseBtn.size(height * 0.11, height * 0.1);
 
   // pic1 버튼
-  pic1Btn = createImg('bookpose1.JPG');
+  pic1Btn = createImg('pose1.JPG');
   pic1Btn.position(width * 0.03, height * 0.81);//height * 0.81 -> height * 0.83
   pic1Btn.size(height * 0.15, height * 0.16);
   //pic1Btn.size(height * 0.14, height * 0.15);
@@ -79,7 +79,7 @@ function setup() {
   pic1Btn.hide();
 
   // pic2 버튼
-  pic2Btn = createImg('bookpose2.JPG');
+  pic2Btn = createImg('pose2.JPG');
   pic2Btn.position(width * 0.33, height * 0.81);
   //pic2Btn.position(buttonX-(height * 0.14 /2), height * 0.83); //height * 0.81 -> height * 0.83
   //pic2Btn.position(width * 0.28, height * 0.81);
@@ -97,7 +97,7 @@ function setup() {
   
 
   // pic3 버튼
-  pic3Btn = createImg('bookpose3.JPG');
+  pic3Btn = createImg('pose3.JPG');
   pic3Btn.position(width * 0.63, height * 0.81);
   //pic3Btn.position(width * 0.53, height * 0.83);//height * 0.81 -> height * 0.83
   pic3Btn.size(height * 0.15, height * 0.16);
@@ -106,7 +106,7 @@ function setup() {
   pic3Btn.hide();
 
   // pic4 버튼
-  pic4Btn = createImg('bookpose3.JPG');
+  pic4Btn = createImg('pose4.JPG');
   pic4Btn.position(width * 0.93, height * 0.81);
   //pic4Btn.position(width * 0.78, height * 0.83);//height * 0.81 -> height * 0.83
   pic4Btn.size(height * 0.15, height * 0.16);
